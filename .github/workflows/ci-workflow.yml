@@ -40,3 +40,25 @@ jobs:
           npm test
         env:
           CI: true
+  Build-a-Push-Docker-Image:
+    runs-on: ubuntu-latest
+    needs: test
+    name: Docker build, tag, push
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Download built artifact
+      uses: actions/download-artifact@main
+      with:
+        name: webpack artifact
+        path: public
+    - name: Build container image
+      uses: docker/build-push-action@v2
+      with:
+        username: ${{github.actor}}
+        password: ${{secrets.GITHUB_TOKEN}}
+        registry: docker.pcg.github.com
+        repository: jacekbro/devops-p8/tic-tac-toe
+        rag_with_sh: true
+  
