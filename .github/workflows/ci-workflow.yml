@@ -58,7 +58,7 @@ jobs:
       with:
         username: ${{github.actor}}
         password: ${{secrets.GITHUB_TOKEN}}
-        registry: docker.pcg.github.com
+        registry: docker.pkg.github.com
         repository: jacekbro/devops-p8/tic-tac-toe
         rag_with_sh: true
   
