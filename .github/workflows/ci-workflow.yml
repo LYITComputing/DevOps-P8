@@ -48,7 +48,7 @@ jobs:
     
     steps:
     - name: Checkout
-      uses: workflows/checkout@1
+      uses: actions/checkout@0
     - name: Download build artifact
       uses: actions/download-artifact@master
       with:
