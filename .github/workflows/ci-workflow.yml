@@ -60,5 +60,6 @@ jobs:
         username: ${{github.actor}}
         password: ${{secrets.GITHUB_TOKEN}}
         registry: docker.pkg.github.com
-        repository: andrzejgromala/devops-p8-forked/tic-tac-toe2
+        repository:  AndrzejGromala/DevOps-P8-forked/tic-tac-toe3
         tag_with_sha: true
+    
