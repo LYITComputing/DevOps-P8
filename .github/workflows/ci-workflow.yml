@@ -92,6 +92,3 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
  
- 
-  call-workflow:
-      uses: andrzejgromala/devops-p8-forked/.github/workflows/spinup-destroy.yml@v1
