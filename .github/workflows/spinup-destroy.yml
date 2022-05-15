@@ -4,9 +4,9 @@ on:
     types: [labeled]
 env:
   AZURE_RESOURCE_GROUP: pipeline-with-actions
-  AZURE_APP_PLAN: actions-app-deployment
-  AZURE_LOCATION: North Europe
-  AZURE_WEBAPP_NAME: andrzejgromala-web-app
+  AZURE_APP_PLAN: actions-ttt-deployment
+  AZURE_LOCATION: '"UK West"'
+  AZURE_WEBAPP_NAME: andrzejgromala-ttt-app
   
 jobs:
   setup-up-azure-resources:
