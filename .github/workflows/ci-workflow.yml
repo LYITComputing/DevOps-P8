@@ -60,5 +60,5 @@ jobs:
       username: ${{github.actor}}  
       password: ${{secrets.GITHUB_TOKEN}}  
       registry: docker.pkg.github.com
-      repository: odoibhlin/DevOps-P8/tic-tac-toe
+      repository: odoibhlin/devops-p8/tic-tac-toe
       tag_with_sha: true
