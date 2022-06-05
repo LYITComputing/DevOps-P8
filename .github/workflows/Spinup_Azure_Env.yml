@@ -44,26 +44,3 @@ env:
           if: success()
             run:
             az webapp config container set --docker-custom-image-name ngix --docker-regustry-servicer-password ${{secrets.REGISTRY_PASSWORD}} --docker-registry-server-url https://docker.pkg.github.com --docker-registry-server-user ${{github.actor}} --resource-group ${{env.AZURE_RESOURCE_GROUP }}  --subscription ${{secrets.AZURE_SUBSCRIPTION_ID }}
-
-
-    destrory-azure-resources:
-      runs-on: ubuntu-latest
-
-        if: contains(github.event.pull_request.labels.*.name, 'destory environment') 
-
-      steps :
-        - name: Checkout repository
-          uses: actions/checkout@v2
-  
-        - name: Azure login
-          uses: azure/login@v1
-          with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-        - name: Desotry Azure environment
-          if: success()
-          run:
-            az group delete --name ${{env.AZURE_RESOURCE_GROUP }}  --subscription ${{secrets.AZURE_SUBSCRIPTION_ID }} --yes
-
-
-
