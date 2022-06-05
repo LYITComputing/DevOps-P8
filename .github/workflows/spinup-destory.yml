@@ -2,7 +2,7 @@ name : Configure Azure environment
 
 on:
   pull_request:
-  types: [labeled]
+    types: [labeled]
 
 env:
   AZURE_RESOURCE_GROUP: cd-with-actions
@@ -10,8 +10,8 @@ env:
   AZURE_LOCATION: '"North Europe"'
   AZURE_WEBAPP_NAME: odoibhlin-ttt-app
 
-  jobs:
-    setup-up-azure-resource:
+jobs:
+    setup-up-azure-resources:
       runs-on: ubuntu-latest
 
       if: contains(github.event.pull_request.labels.*.name, 'spin up environment') 
@@ -28,28 +28,27 @@ env:
         - name: Create Azure resource group
           if: success()
           run:
-            az group create --location ${{env.AZURE_LOCATION }} --name ${{env.AZURE_RESOURCE_GROUP }} --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}}
+            az group create --location ${{ env.AZURE_LOCATION }} --name ${{ env.AZURE_RESOURCE_GROUP }} --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
         - name: Create Azure app service plan
           if: success()
-            run:
-            az appservice plan create --resource-group ${{env.AZURE_RESOURCE_GROUP }} --name ${{env.AZURE_APP_PLAN }} --is-linux --sku F1 --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          run:
+            az appservice plan create --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_APP_PLAN }} --is-linux --sku F1 --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
 
         - name: Create webapp resource
           if: success()
           run:
-            az webapp create --resource-group ${{env.AZURE_RESOURCE_GROUP }} --plan ${{env.AZURE_APP_PLAN }} --name ${{env.AZURE_WEBAPP_NAME }}  --deployment-container-image-name nginx --subscription ${{secrets.AZURE_SUBSCRIPTION_ID }}
-
+            az webapp create --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --plan ${ {env.AZURE_APP_PLAN }} --name ${{ env.AZURE_WEBAPP_NAME }} --deployment-container-image-name nginx --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         - name: Configure webapp to use GitHib Packages
           if: success()
-            run:
-            az webapp config container set --docker-custom-image-name ngix --docker-regustry-servicer-password ${{secrets.REGISTRY_PASSWORD}} --docker-registry-server-url https://docker.pkg.github.com --docker-registry-server-user ${{github.actor}} --resource-group ${{env.AZURE_RESOURCE_GROUP }}  --subscription ${{secrets.AZURE_SUBSCRIPTION_ID }}
+          run:
+            az webapp config container set --docker-custom-image-name nginx --docker-registry-server-password ${{ secrets.REGISTRY_PASSWORD }} --docker-registry-server-url https://docker.pkg.github.com --docker-registry-server-user ${{ github.actor }} --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
 
 
-    destrory-azure-resources:
+    destroy-azure-resources:
       runs-on: ubuntu-latest
 
-        if: contains(github.event.pull_request.labels.*.name, 'destory environment') 
+      if: contains(github.event.pull_request.labels.*.name, 'destory environment') 
 
       steps :
         - name: Checkout repository
@@ -63,7 +62,4 @@ env:
         - name: Desotry Azure environment
           if: success()
           run:
-            az group delete --name ${{env.AZURE_RESOURCE_GROUP }}  --subscription ${{secrets.AZURE_SUBSCRIPTION_ID }} --yes
-
-
-
+            az group delete --name ${ {env.AZURE_RESOURCE_GROUP }}  --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }} --yes
