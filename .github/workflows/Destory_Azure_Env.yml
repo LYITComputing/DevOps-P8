@@ -2,7 +2,7 @@ name : Destory Azure environment
 
 on:
   pull_request:
-  types: [labeled]
+   types: [labeled]
 
 env:
   AZURE_RESOURCE_GROUP: cd-with-actions
@@ -10,11 +10,11 @@ env:
   AZURE_LOCATION: '"North Europe"'
   AZURE_WEBAPP_NAME: odoibhlin-ttt-app
 
-  jobs:
+jobs:
     destrory-azure-resources:
       runs-on: ubuntu-latest
       
-        if: contains(github.event.pull_request.labels.*.name, 'destory environment') 
+      if: contains(github.event.pull_request.labels.*.name, 'destory environment') 
         
       steps :
         - name: Checkout repository
@@ -29,5 +29,3 @@ env:
           if: success()
           run:
             az group delete --name ${{env.AZURE_RESOURCE_GROUP }}  --subscription ${{secrets.AZURE_SUBSCRIPTION_ID }} --yes
-
-          echo test, and deploy your project.
